@@ -1,35 +1,14 @@
-import React , { Component } from 'react'
-import { NavigationContainer } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import  DummyHomePage from './screens/Home'
-import DummyLoginPage from './screens/Login'
-import DummyRegisterPage from './screens/Register'
+import React from 'react';
+// 1. import `NativeBaseProvider` component
+import { NativeBaseProvider, Text, Box } from 'native-base';
 
-// initializing the stack container
-const Stack = createNativeStackNavigator();
-
-// Main Stack is Here ! 
-const ApplicationStack = () => {
+export default function App() {
+  // 2. Use at the root of your app
   return (
-  <NavigationContainer>
-    <Stack.Navigator screenOptions={{headerShown : false}}>
-      <Stack.Screen
-      name = "Home"
-      component = {DummyHomePage}
-      options = {{title:'Homepage'}}
-      />
-      <Stack.Screen
-      name = "Register"
-      component = {DummyRegisterPage}
-      options = {{title:'Registerpage'}}
-      />
-      <Stack.Screen
-      name = "Login"
-      component = {DummyLoginPage}
-      options = {{title:'Loginpage'}}
-      />
-    </Stack.Navigator>
-  </NavigationContainer>
-);}
-
-export default ApplicationStack;
+    <NativeBaseProvider>
+      <Box flex={1} bg="#fff" alignItems="center" justifyContent="center">
+        <Text>Open up App.js to start working on your app!</Text>
+      </Box>
+    </NativeBaseProvider>
+  );
+}

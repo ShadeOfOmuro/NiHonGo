@@ -1,14 +1,11 @@
 // Homepage Scripts begin here
 import React from "react";
 import { Text  , View , Button , Image , StyleSheet} from "react-native";
-const DummyHomePage = ({navigation}) => {
+const DummyHomePage = ({navigation , route}) => {
     return (
         <View style={style.container}>
-            <Text>
-                This is the homepage!
-            </Text>
-            <Button onPress={()=>navigation.navigate("Register")} title="Go to Register Page"></Button>
-            <Button onPress={()=>navigation.navigate("Login")} title="Go to Login Page"></Button>
+            <Button onPress={()=>alert("UID: " + String(route.params.uid) + " , USERNAME: " + String(route.params.username))} title="View Detail"></Button>
+            <Button onPress={()=>navigation.goBack()} title="Back"></Button>
         </View>
     );
 }

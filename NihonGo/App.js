@@ -3,8 +3,12 @@ import {NavigationContainer} from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginPage from "./screens/Login";
 import RegisterPage from "./screens/Register";
-import DummyHomePage from './screens/Home';
-
+import HomePage from './screens/Home';
+import SettingPage from './screens/setting';
+import StudyPage from './screens/study';
+import ChapterListPage from './screens/chapter_list';
+import ChapterPage from './screens/chapter';
+import LeaderBoardPage from './screens/leaderboard';
 const Stack = createNativeStackNavigator();
 class Application extends Component {
   render() {
@@ -23,8 +27,28 @@ class Application extends Component {
           />
           <Stack.Screen
           name="Homepage"
-          component={DummyHomePage}
+          component={HomePage}
           options={{}}/>
+          <Stack.Screen
+          name="Setting"
+          component={SettingPage}
+          options={{}}/>
+          <Stack.Screen
+          name="Study"
+          component={StudyPage}
+          options={{}} />
+          <Stack.Screen
+          name="Study_List"
+          component = {ChapterListPage}
+          options={{}} />
+          <Stack.Screen
+          name="Chapter"
+          component={ChapterPage}
+          options={{}} />
+          <Stack.Screen
+          name="Leaderboard"
+          component={LeaderBoardPage}
+          options={{}} />
         </Stack.Navigator>
       </NavigationContainer>
     );

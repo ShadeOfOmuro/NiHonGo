@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import sqlite3
 import json
 from random import randint
-conn = sqlite3.connect('MainDatabase.sqlite')
+conn = sqlite3.connect('MainDatabase.sqlite' , check_same_thread=False)
 cur = conn.cursor()
 app = FastAPI()
 
@@ -14,6 +14,9 @@ class LoginData(BaseModel) :
 class LeaderBoardFormData(BaseModel) :
     uid : int
 
+class ScoreRequestForm(BaseModel) :
+    uid : int
+    score : int
 class ChapterFormData(BaseModel) :
     chapter_type : str
 
@@ -28,7 +31,7 @@ def find_usr_data(payload : list ,uid : int) :
     place = 1 
     for i in payload :
         if i[0] != uid :
-            plasce+=1
+            place+=1
         else :
             return {"username" : i[1] ,"place" : place , "score" : i[2]}
     return { "status" : "uid supplied is invalid" }
@@ -140,5 +143,16 @@ async def get_set_of_question(data : QuestionQuery) :
                 question_set[jap_pron_list[real_index]] = {"choices" : [eng_pron_list[index1],eng_pron_list[index2],eng_pron_list[index3],eng_pron_list[real_index]],"key" : 4}
         return question_set
 
-
-
+@app.post("/update_score")
+def update_score(data : ScoreRequestForm) :
+    try :
+        row = cur.execute("SELECT score FROM users WHERE uid=:user_id_reserved",{"user_id_reserved" : data.uid})
+        payload = row.fetchone()
+        print(payload)
+        curr_score = payload[0]
+        curr_score += data.score
+        cur.execute("UPDATE users SET score=? WHERE uid=?",(curr_score , data.uid))
+        conn.commit()
+        return {"status" : 99}
+    except :
+        return {"status" : -1}

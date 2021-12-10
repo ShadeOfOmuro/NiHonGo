@@ -1,0 +1,21 @@
+NihonGo/node_modules
+NihonGo/.expo
+NihonGo/.expo-shared
+NihonGo/.vscode
+.node_modules
+NihonGo/package-lock.json
+NihonGo/node_modules/
+NihonGo/.expo/
+NihonGo/dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+Webserver/data
+Webserver/venv
+# macOS
+.DS_Store

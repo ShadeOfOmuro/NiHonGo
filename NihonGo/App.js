@@ -1,14 +1,17 @@
 import React , {Component} from 'react'
 import {NavigationContainer} from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginPage from "./screens/Login";
-import RegisterPage from "./screens/Register";
-import HomePage from './screens/Home';
-import SettingPage from './screens/setting';
-import StudyPage from './screens/study';
-import ChapterListPage from './screens/chapter_list';
-import ChapterPage from './screens/chapter';
-import LeaderBoardPage from './screens/leaderboard';
+import {LoginPage} from "./screens/Login";
+import {RegisterPage} from "./screens/Register";
+import {HomePage} from './screens/Home';
+import {SettingPage} from './screens/setting';
+import {StudyPage} from './screens/study';
+import {ChapterListPage} from './screens/chapter_list';
+import {ChapterPage} from './screens/chapter';
+import {LeaderBoardPage} from './screens/leaderboard';
+import {QuizPage} from './screens/quiz'
+import { QuizGameResult } from './screens/game_result';
+import { GamePage } from './screens/game';
 const Stack = createNativeStackNavigator();
 class Application extends Component {
   render() {
@@ -49,6 +52,18 @@ class Application extends Component {
           name="Leaderboard"
           component={LeaderBoardPage}
           options={{}} />
+          <Stack.Screen
+          name="Quiz"
+          component={QuizPage}
+          options={{}}/>
+          <Stack.Screen
+          name="QuizGameResult"
+          component={QuizGameResult}
+          options={{}}/>
+          <Stack.Screen
+          name="GamePage"
+          component={GamePage}
+          options={{}}/>
         </Stack.Navigator>
       </NavigationContainer>
     );

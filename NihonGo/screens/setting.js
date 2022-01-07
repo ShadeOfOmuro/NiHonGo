@@ -21,4 +21,4 @@ const style = StyleSheet.create({
     }
 });
 
-export default SettingPage;
+export{SettingPage};

@@ -32,4 +32,4 @@ const style = StyleSheet.create({
         flex : 1
     }
 });
-export default StudyPage;
+export{StudyPage};

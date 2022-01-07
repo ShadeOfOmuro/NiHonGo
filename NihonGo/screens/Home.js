@@ -11,6 +11,8 @@ class HomePage extends Component {
                 <Button title="Study" onPress={()=>{this.linker.push("Study" ,{uid : this.route_storage.uid , username : this.route_storage.username})}}/>
                 <Button title="LeaderBoard" onPress={()=>{this.linker.push("Leaderboard",{uid : this.route_storage.uid , username : this.route_storage.username})}}/>
                 <Button title="Setting" onPress={()=>{this.linker.push("Setting",{uid : this.route_storage.uid , username : this.route_storage.username})}}/>
+                <Button title="Game" onPress={()=>{this.linker.push("GamePage",{uid : this.route_storage.uid , username : this.route_storage.username})}}/>
+                <Button title="Quiz" onPress={()=>{this.linker.push("Quiz",{uid : this.route_storage.uid , username : this.route_storage.username})}}/>
                 <Button title="Back" onPress={()=>{this.linker.goBack()}}/>
             </View>
         );
@@ -26,4 +28,4 @@ const style = StyleSheet.create({
     }
 });
 
-export default HomePage;
+export{HomePage};

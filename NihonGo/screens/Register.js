@@ -26,7 +26,7 @@ class RegisterPage extends Component {
         if (this.state.re_password == this.state.password) {
         try {
             console.log("connecting...")
-            const response = await fetch('http://192.168.1.12:8000/register', {
+            const response = await fetch('http://192.168.1.21:8000/register', {
               method: 'POST',
               headers: {
                 Accept: 'application/json',
@@ -111,4 +111,4 @@ class RegisterPage extends Component {
 }
 }
 
-export default RegisterPage;
+export{RegisterPage};

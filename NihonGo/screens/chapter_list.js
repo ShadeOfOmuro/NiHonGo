@@ -11,7 +11,7 @@ class ChapterListPage extends Component {
     Fetchchapters = async () => {
         try {
             console.log("connecting...");
-            const response = await fetch('http://192.168.1.12:8000/get_chapters', {
+            const response = await fetch('http://192.168.1.21:8000/get_chapters', {
                 method: 'POST',
                 headers: {
                   Accept: 'application/json',
@@ -56,4 +56,4 @@ const style = StyleSheet.create({
     }
 })
 
-export default ChapterListPage
+export{ChapterListPage};

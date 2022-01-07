@@ -1,4 +1,5 @@
 import React , {Component} from 'react'
+
 import {
   Box,
   Text,
@@ -24,7 +25,7 @@ class LoginPage extends Component{
       login = async () => {
         try {
         console.log("connecting...")
-        const response = await fetch('http://192.168.1.12:8000/login', {
+        const response = await fetch('http://192.168.1.21:8000/login', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -121,4 +122,7 @@ class LoginPage extends Component{
 }
 
 
-export default LoginPage;
+export{LoginPage};
+
+
+    

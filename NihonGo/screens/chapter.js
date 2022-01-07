@@ -8,7 +8,7 @@ class ChapterPage extends Component {
     data_gaining = async () => {
         try {
             console.log("connecting...")
-            const response = await fetch('http://192.168.1.12:8000/get_chapter_data', {
+            const response = await fetch('http://192.168.1.21:8000/get_chapter_data', {
               method: 'POST',
               headers: {
                 Accept: 'application/json',
@@ -47,4 +47,4 @@ const style = StyleSheet.create({
         flex : 1
     }
 });
-export default ChapterPage;
+export{ChapterPage};

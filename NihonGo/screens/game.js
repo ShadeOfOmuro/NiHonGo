@@ -94,7 +94,7 @@ class GamePage extends Component {
             else {
                 console.log("migrating to result");
                 // things to send to another page [credential and overall score]
-                this.linker.push("QuizGameResult" ,{uid : this.route_storage.uid , username : this.route_storage.username , score : this.state.score_gained , type : "quiz"})
+                this.linker.push("QuizGameResult" ,{uid : this.route_storage.uid , username : this.route_storage.username , score : this.state.score_gained , type : "Game"})
             }
         }
     }

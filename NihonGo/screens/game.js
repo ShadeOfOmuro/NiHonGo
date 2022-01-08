@@ -13,7 +13,7 @@ class GamePage extends Component {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    "num_of_question": 10,
+                    "num_of_question": 1000,
                     "track": "mix"
                 })   
             });
@@ -38,7 +38,7 @@ class GamePage extends Component {
     }
     state = {
         score_gained : 0,
-        max_items : 10,
+        max_items : 1000,
         score_multiplier : 100,
         total_score : 0,
         curr_question : "",
@@ -102,11 +102,13 @@ class GamePage extends Component {
     render() {
         return (
             <View style={style.container}>
-                <Text>{this.state.curr_question_num+1}) {this.state.curr_question}</Text>
+                <Text>{this.state.curr_question}</Text>
                 <Button title={this.state.curr_choice_1} onPress={()=>{this.next_question(1)}}/>
                 <Button title={this.state.curr_choice_2} onPress={()=>{this.next_question(2)}}/>
                 <Button title={this.state.curr_choice_3} onPress={()=>{this.next_question(3)}}/>
                 <Button title={this.state.curr_choice_4} onPress={()=>{this.next_question(4)}}/>
+                <Button title="Back" onPress={()=>{this.linker.push("QuizGameResult" ,{uid : this.route_storage.uid , username : this.route_storage.username , score : this.state.score_gained , type : "Game"})}}/>
+                
             </View>
         );
     }

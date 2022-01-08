@@ -28,14 +28,26 @@ class QuizGameResult extends Component {
         await this.linker.push("Homepage",this.route_storage);
     }
     render() {
-        return (
-            <View style={style.container}>
-                <Text>Type : {this.route_storage.type}</Text>
-                <Text>{this.route_storage.score/100} Out of 10</Text>
-                <Text>Score Gained : {this.route_storage.score}</Text>
-                <Button title="Back" onPress={()=>{this.clearscore()}}/>
-            </View>
-        );
+        if (this.route_storage.type == "Game") {
+            return (
+                <View style={style.container}>
+                    <Text>Type : {this.route_storage.type}</Text>
+                    <Text>{this.route_storage.score/100} Out Of ∞</Text>
+                    <Text>Score Gained : {this.route_storage.score}</Text>
+                    <Button title="Back" onPress={()=>{this.clearscore()}}/>
+                </View>
+            );
+        }
+        else {
+            return (
+                <View style={style.container}>
+                    <Text>Type : {this.route_storage.type}</Text>
+                    <Text>{this.route_storage.score/100} Out of 10</Text>
+                    <Text>Score Gained : {this.route_storage.score}</Text>
+                    <Button title="Back" onPress={()=>{this.clearscore()}}/>
+                </View>
+            );
+        }
     }
 }
 const style = StyleSheet.create({

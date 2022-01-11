@@ -49,17 +49,17 @@ const style = StyleSheet.create({
   title_image : {
     marginTop : 22,
     alignItems : "flex-start",
-    transform : [{translateX : -75}],
+    transform : [{translateX : -125}],
     marginBottom : 19
   },
   card1 : {
-    backgroundColor : "#F0C34E" ,
+    backgroundColor : "#E07E47" ,
     borderRadius : 25,
     height : 250,
     width : "100%"
   },
   card2 : {
-    backgroundColor : "#9B2F2F" ,
+    backgroundColor : "#4DC6EC" ,
     borderRadius : 25,
     height : 250,
     width : "100%"
@@ -100,6 +100,13 @@ const style = StyleSheet.create({
     width : 213,
     height : 35
   },
+  description_pics2 : {
+    position : 'absolute',
+    alignSelf : "center",
+    top : 180,
+    width : 187,
+    height : 40
+  },
   Hstack_wrapper : {
     flexDirection : "row",
     justifyContent : "space-between",
@@ -132,7 +139,7 @@ class CustomButton extends Component {
     );
   }
 }
-class HomePage extends Component {
+class GameSelect extends Component {
   state = {
     fontLoaded : false
   }
@@ -170,55 +177,33 @@ class HomePage extends Component {
             </View>
           </View>
           <View style={style.row_wrap}>
-            <Image style={style.title_image} source={require("../assets/Images/WSILT.png")} />
+            <Image style={style.title_image} source={require("../assets/Images/Games_t.png")} />
           </View>
           <ScrollView>
             <View style={style.cardwrapper}>
               <View style={style.card1}>
-                <Image style={style.type_head} source={require('../assets/Images/BSH.png')} />
-                <Image style={style.banner_pics} source={require('../assets/Images/hiragana.png')} />
-                <Image style={style.description_pics} source={require('../assets/Images/H_label.png')} />
-                <CustomButton style={style.Button_padder}  onPress={()=> this.props.navigation.push("Study_List",{
-                    uid : this.props.route.params.uid ,
-                    username : this.props.route.params.username,
-                    chapter_type : "hiragana"
-                })}/>
+                <Image style={style.type_head} source={require('../assets/Images/Quiz.png')} />
+                <Image style={style.banner_pics} source={require('../assets/Images/LessonImage.png')} />
+                <Image style={style.description_pics} source={require('../assets/Images/QL.png')} />
+                <CustomButton style={style.Button_padder} onPress={()=>{this.linker.push("Quiz",{uid : this.route_storage.uid , username : this.route_storage.username})}}/>
               </View>
             </View>
             <View style={style.cardwrapper}>
               <View style={style.card2}>
-                <Image style={style.type_head} source={require('../assets/Images/BK.png')} />
-                <Image style={style.banner_pics} source={require('../assets/Images/katakana.png')} />
-                <Image style={style.description_pics} source={require('../assets/Images/K_label.png')} />
-                <CustomButton style={style.Button_padder} onPress={()=>{
-                this.props.navigation.push("Study_List",{
-                    uid : this.props.route.params.uid ,
-                    username : this.props.route.params.username,
-                    chapter_type : "katakana"
-                })}}/>
-              </View>
-            </View>
-            <View style={style.cardwrapper}>
-              <View style={style.card3}>
-                <Image style={style.type_head} source={require('../assets/Images/BKA.png')} />
-                <Image style={style.banner_pics} source={require('../assets/Images/kanji.png')} />
-                <Image style={style.description_pics} source={require('../assets/Images/Ka_label.png')} />
-                <CustomButton style={style.Button_padder} onPress={()=>{
-                this.props.navigation.push("Study_List",{
-                    uid : this.props.route.params.uid ,
-                    username : this.props.route.params.username,
-                    chapter_type : "kanji"
-                })}}/>
+                <Image style={style.type_head} source={require('../assets/Images/Flash_Card.png')} />
+                <Image style={style.banner_pics} source={require('../assets/Images/LessonImage2.png')} />
+                <Image style={style.description_pics2} source={require('../assets/Images/FL3.png')} />
+                <CustomButton style={style.Button_padder} onPress={()=>{this.linker.push("GamePage",{uid : this.route_storage.uid , username : this.route_storage.username})}}/>
               </View>
             </View>
           </ScrollView>
           <View>
           <View style={style.bottom_nav_bar}>
               <View style={style.wrap_icon}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>{this.linker.push("Homepage",{uid : this.route_storage.uid , username : this.route_storage.username})}}>
                   <Image source={require('../assets/Images/home.png')}/>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>{this.linker.push("GameSelect",{uid : this.route_storage.uid , username : this.route_storage.username})}}>
+                <TouchableOpacity>
                   <Image source={require('../assets/Images/games.png')}/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{this.linker.push("Leaderboard",{uid : this.route_storage.uid , username : this.route_storage.username})}}>
@@ -243,4 +228,4 @@ class HomePage extends Component {
   }
 }
 
-export{HomePage};
+export{GameSelect};

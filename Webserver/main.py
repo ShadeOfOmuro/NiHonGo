@@ -63,9 +63,12 @@ async def register(data : LoginData):
 @app.post("/leaderboard")
 async def get_leaderboard_data(data : LeaderBoardFormData) :
     row = cur.execute("SELECT uid,username,score FROM users ORDER BY score DESC")
+    payload2 = []
     payload = row.fetchall()
-    usr_data = find_usr_data(payload, data.uid)
-    final_payload = {"usr" : usr_data , "leaderboard" : payload}
+    for i in payload :
+        payload2.append(list(i))
+    usr_data = find_usr_data(payload2, data.uid)
+    final_payload = {"usr" : usr_data , "leaderboard" : payload2}
     return final_payload
 
 @app.post("/get_chapters")

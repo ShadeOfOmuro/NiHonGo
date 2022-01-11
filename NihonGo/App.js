@@ -12,6 +12,7 @@ import {LeaderBoardPage} from './screens/leaderboard';
 import {QuizPage} from './screens/quiz'
 import { QuizGameResult } from './screens/game_result';
 import { GamePage } from './screens/game';
+import { GameSelect } from './screens/game_select';
 const Stack = createNativeStackNavigator();
 class Application extends Component {
   render() {
@@ -63,6 +64,10 @@ class Application extends Component {
           <Stack.Screen
           name="GamePage"
           component={GamePage}
+          options={{}}/>
+          <Stack.Screen
+          name="GameSelect"
+          component={GameSelect}
           options={{}}/>
         </Stack.Navigator>
       </NavigationContainer>

@@ -54,6 +54,8 @@ async def register(data : LoginData):
     row = cur.execute("SELECT (username) FROM users WHERE username=:usr_name",{"usr_name" : data.username})
     if row.fetchone() != None :
         return {"status" : "-1"}  
+    if data.username == "" or data.password == "" :
+        return {"status" : "-1"} 
     cur.execute("INSERT INTO users(username,pwd) VALUES (:usr_name,:passwd)",{"usr_name" : data.username , "passwd" : data.password})
     conn.commit()
     return {"status" : "99"}

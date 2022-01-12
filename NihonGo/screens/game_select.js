@@ -193,7 +193,7 @@ class GameSelect extends Component {
                 <Image style={style.type_head} source={require('../assets/Images/Flash_Card.png')} />
                 <Image style={style.banner_pics} source={require('../assets/Images/LessonImage2.png')} />
                 <Image style={style.description_pics2} source={require('../assets/Images/FL3.png')} />
-                <CustomButton style={style.Button_padder} onPress={()=>{this.linker.push("GamePage",{uid : this.route_storage.uid , username : this.route_storage.username})}}/>
+                <CustomButton style={style.Button_padder} onPress={()=>{this.linker.push("GameSubSelect",{uid : this.route_storage.uid , username : this.route_storage.username})}}/>
               </View>
             </View>
           </ScrollView>

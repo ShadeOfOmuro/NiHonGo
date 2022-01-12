@@ -1,5 +1,5 @@
 import React , { Component } from 'react';
-import {ImageBackground,SafeAreaView,View , Text , Image , ScrollView ,StyleSheet , TouchableOpacity} from 'react-native'
+import {ImageBackground,SafeAreaView,View , Text , Image , ScrollView ,StyleSheet ,FlatList, TouchableOpacity} from 'react-native'
 import * as Font from 'expo-font';
 import { backgroundColor, transform } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import { styleProps } from 'react-native-web/dist/cjs/modules/forwardedProps';
@@ -18,6 +18,7 @@ const style = StyleSheet.create({
     },
     shadowRadius: 5,
     shadowOpacity: 1,
+    marginTop : 75,
     marginBottom : 10
   },
   wrap_icon : {
@@ -161,8 +162,9 @@ const style = StyleSheet.create({
   },
   second_box : {
     marginTop : 10,
+    paddingBottom : 10,
     width: 316,
-    height: 290,
+    height: 300,
     borderRadius: 25,
     backgroundColor: "#ECA2A2"
   },
@@ -179,6 +181,19 @@ const style = StyleSheet.create({
     marginTop : 8
   }
 });
+
+const Item = ({data}) => (
+  <View style={style.pills_again}>
+    <View style={style.Hstack_wrapper2}>
+    <Text>{data[1]}</Text>
+    <Text>{data[2]}</Text>
+    </View>
+  </View>
+);
+
+const renderItem = ({ item }) => (
+  <Item data={item} />
+);
 
 class CustomButton extends Component {
   render() {
@@ -256,7 +271,6 @@ class LeaderBoardPage extends Component {
             </View>
           </View>
           <Image style={{transform : [{translateX : -90}], marginTop: 10}}source={require('../assets/Images/Leaderbord3.png')}/>
-          <ScrollView>
             <View style={style.the_first_box}>
               <Image style={style.header_box} source={require('../assets/Images/YS.png')} />
               <View style={style.pills_again}>
@@ -274,12 +288,12 @@ class LeaderBoardPage extends Component {
             </View>
             <View style={style.second_box}>
               <Image style={style.header_box} source={require('../assets/Images/TSO.png')}/>
-              <View style={style.pills_again}></View>
-              <View style={style.pills_again}></View>
-              <View style={style.pills_again}></View>
-              <View style={style.pills_again}></View>
+              <FlatList style={{marginTop : 5}}
+              data={this.state.leaderboard_payload}
+              renderItem={renderItem}
+              keyExtractor={item => item[1]}
+              />
             </View>
-          </ScrollView>
           <View>
           <View style={style.bottom_nav_bar}>
               <View style={style.wrap_icon}>

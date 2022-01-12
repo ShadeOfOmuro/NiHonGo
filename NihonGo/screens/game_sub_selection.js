@@ -32,7 +32,7 @@ const style = StyleSheet.create({
     justifyContent : "flex-end",
     width: "100%",
     height: 95,
-    backgroundColor: "#E99090",
+    backgroundColor: "#DA9E78",
     shadowColor: "rgba(0, 0, 0, 0.25)",
     shadowOffset: {
       width: 0,
@@ -48,8 +48,8 @@ const style = StyleSheet.create({
   },
   title_image : {
     marginTop : 22,
-    alignItems : "flex-start",
-    transform : [{translateX : -75}],
+    alignItems : "center",
+    transform : [{translateX : 0}],
     marginBottom : 19
   },
   card1 : {
@@ -91,12 +91,12 @@ const style = StyleSheet.create({
   banner_pics : {
     position : 'absolute',
     alignSelf : "center",
-    top : 45
+    top : 20
   },
   description_pics : {
     position : 'absolute',
     alignSelf : "center",
-    top : 180,
+    top : 170,
     width : 213,
     height : 35
   },
@@ -111,12 +111,19 @@ const style = StyleSheet.create({
     fontSize : 18,
     transform : [{translateY : 12}]
   },
-  type_head : {
-      transform : [{translateY : 10}],
-      alignSelf : "center",
-      position : "absolute"
+  row_wrap : {
+      justifyContent : "center",
+      alignItems : "center"
+  },
+  pills : {
+    width: 250,
+    height: 80,
+    borderRadius: 25,
+    backgroundColor: "#DB6B6B",
+    justifyContent : "center",
+    alignItems : "center",
+    marginVertical : 10
   }
-
 });
 
 class CustomButton extends Component {
@@ -132,9 +139,9 @@ class CustomButton extends Component {
     );
   }
 }
-class HomePage extends Component {
+class GameSubSelect extends Component {
   state = {
-    fontLoaded : false
+    fontLoaded : false,
   }
   async loadFonts() {
     await Font.loadAsync({
@@ -150,17 +157,17 @@ class HomePage extends Component {
     });
     this.setState({ fontsLoaded: true });
   }
-
+  
   componentDidMount() {
-    this.loadFonts();
+      this.loadFonts();
   }
   route_storage = this.props.route.params;
   linker = this.props.navigation;
   render() {
     if (this.state.fontsLoaded) {
       return (
-        <View style={{flex : 1 , justifyContent : "center" , alignItems : "center" , backgroundColor : "#FEEFED"}}>
-           <Image style={{ height: "100%", width: "100%", position: 'absolute',opacity : 0.4}} source={require('../assets/Images/Background.png')} />
+        <View style={{flex : 1 , justifyContent : "center" , alignItems : "center" , backgroundColor : "#FFFFFF"}}>
+          <Image style={{ height: "100%", width: "100%", position: 'absolute',opacity : 0.4}} source={require('../assets/Images/Background2.png')} />
           <View style={style.nav_bar}>
             <View style={style.Hstack_wrapper}> 
             <Image source={require("../assets/Images/jp_flag.png")} style={{width : 40,height:40,borderRadius:400/2}}/>
@@ -171,52 +178,24 @@ class HomePage extends Component {
             </View>
           </View>
           <View style={style.row_wrap}>
-            <Image style={style.title_image} source={require("../assets/Images/WSILT.png")} />
+            <Image style={style.title_image} source={require("../assets/Images/Topic_name.png")} />
           </View>
           <ScrollView>
-            <View style={style.cardwrapper}>
-              <View style={style.card1}>
-                <Image style={style.type_head} source={require('../assets/Images/BSH.png')} />
-                <Image style={style.banner_pics} source={require('../assets/Images/hiragana.png')} />
-                <Image style={style.description_pics} source={require('../assets/Images/H_label.png')} />
-                <CustomButton style={style.Button_padder}  onPress={()=> this.props.navigation.push("Study_List",{
-                    uid : this.props.route.params.uid ,
-                    username : this.props.route.params.username,
-                    chapter_type : "hiragana"
-                })}/>
-              </View>
+          <TouchableOpacity onPress={()=>{this.props.navigation.push("GamePage",{uid : this.props.route.params.uid,username : this.props.route.params.username , track:"mix"})}}>
+            <View style={style.pills}>
+                <Text style={{fontFamily:"Roboto-Bold",fontSize:18,color:"#FFFFFF"}}>Hiragana x katakana</Text>
             </View>
-            <View style={style.cardwrapper}>
-              <View style={style.card2}>
-                <Image style={style.type_head} source={require('../assets/Images/BK.png')} />
-                <Image style={style.banner_pics} source={require('../assets/Images/katakana.png')} />
-                <Image style={style.description_pics} source={require('../assets/Images/K_label.png')} />
-                <CustomButton style={style.Button_padder} onPress={()=>{
-                this.props.navigation.push("Study_List",{
-                    uid : this.props.route.params.uid ,
-                    username : this.props.route.params.username,
-                    chapter_type : "katakana"
-                })}}/>
-              </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=>{this.props.navigation.push("GamePage",{uid : this.props.route.params.uid,username : this.props.route.params.username , track:"kanji"})}}>
+            <View style={style.pills}>
+                <Text style={{fontFamily:"Roboto-Bold",fontSize:18,color:"#FFFFFF"}}>kanji</Text>
             </View>
-            <View style={style.cardwrapper}>
-              <View style={style.card3}>
-                <Image style={style.type_head} source={require('../assets/Images/BKA.png')} />
-                <Image style={style.banner_pics} source={require('../assets/Images/kanji.png')} />
-                <Image style={style.description_pics} source={require('../assets/Images/Ka_label.png')} />
-                <CustomButton style={style.Button_padder} onPress={()=>{
-                this.props.navigation.push("Study_List",{
-                    uid : this.props.route.params.uid ,
-                    username : this.props.route.params.username,
-                    chapter_type : "kanji"
-                })}}/>
-              </View>
-            </View>
+          </TouchableOpacity>
           </ScrollView>
           <View>
           <View style={style.bottom_nav_bar}>
               <View style={style.wrap_icon}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>{this.linker.push("Homepage",{uid : this.route_storage.uid , username : this.route_storage.username})}}>
                   <Image source={require('../assets/Images/home.png')}/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{this.linker.push("GameSelect",{uid : this.route_storage.uid , username : this.route_storage.username})}}>
@@ -244,4 +223,4 @@ class HomePage extends Component {
   }
 }
 
-export{HomePage};
+export{GameSubSelect};

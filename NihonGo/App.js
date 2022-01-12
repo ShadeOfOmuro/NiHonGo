@@ -13,6 +13,7 @@ import {QuizPage} from './screens/quiz'
 import { QuizGameResult } from './screens/game_result';
 import { GamePage } from './screens/game';
 import { GameSelect } from './screens/game_select';
+import { GameSubSelect } from './screens/game_sub_selection';
 const Stack = createNativeStackNavigator();
 class Application extends Component {
   render() {
@@ -69,6 +70,11 @@ class Application extends Component {
           name="GameSelect"
           component={GameSelect}
           options={{}}/>
+          <Stack.Screen
+          name="GameSubSelect"
+          component={GameSubSelect}
+          options={{}}/>
+
         </Stack.Navigator>
       </NavigationContainer>
     );

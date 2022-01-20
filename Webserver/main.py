@@ -54,6 +54,8 @@ async def register(data : LoginData):
     row = cur.execute("SELECT (username) FROM users WHERE username=:usr_name",{"usr_name" : data.username})
     if row.fetchone() != None :
         return {"status" : "-1"}  
+    if data.username == "" or data.password == "" :
+        return {"status" : "-1"} 
     cur.execute("INSERT INTO users(username,pwd) VALUES (:usr_name,:passwd)",{"usr_name" : data.username , "passwd" : data.password})
     conn.commit()
     return {"status" : "99"}
@@ -61,9 +63,12 @@ async def register(data : LoginData):
 @app.post("/leaderboard")
 async def get_leaderboard_data(data : LeaderBoardFormData) :
     row = cur.execute("SELECT uid,username,score FROM users ORDER BY score DESC")
+    payload2 = []
     payload = row.fetchall()
-    usr_data = find_usr_data(payload, data.uid)
-    final_payload = {"usr" : usr_data , "leaderboard" : payload}
+    for i in payload :
+        payload2.append(list(i))
+    usr_data = find_usr_data(payload2, data.uid)
+    final_payload = {"usr" : usr_data , "leaderboard" : payload2}
     return final_payload
 
 @app.post("/get_chapters")
@@ -86,7 +91,7 @@ async def get_set_of_question(data : QuestionQuery) :
     elif data.track == 'kanji' :
         row = cur.execute("SELECT * FROM kanji_wordlist")
     else :
-        row = cur.execute("SELECT * FROM wordlist WHERE type=:set_type",{"set_type" : data.track})
+        print("Applied Mega")
 
     # randoming
     if data.track == 'kanji' :
@@ -102,6 +107,7 @@ async def get_set_of_question(data : QuestionQuery) :
             kunyomi_list.append(i[3])
             thai_meaning_list.append(i[4])
             eng_meaning_list.append(i[5])
+        idx = 0
         for i in range(data.num_of_question) :
             real_index = randint(0,len(kanji_list)-1)
             index1 = randint(0,len(kanji_list)-1)
@@ -109,13 +115,69 @@ async def get_set_of_question(data : QuestionQuery) :
             index3 = randint(0,len(kanji_list)-1)
             mode = randint(0,3)
             if mode == 0 :
-                question_set[kanji_list[real_index]] = {"choices" : [onyomi_list[real_index],kunyomi_list[index1],eng_meaning_list[index2],eng_meaning_list[index3]],"key" : 1}
+                question_set[idx] = {"word" : kanji_list[real_index],"choices" : [onyomi_list[real_index],kunyomi_list[index1],eng_meaning_list[index2],eng_meaning_list[index3]],"key" : 1}
             elif mode == 1 : 
-                question_set[kanji_list[real_index]] = {"choices" : [onyomi_list[index1],kunyomi_list[real_index],eng_meaning_list[index2],eng_meaning_list[index3]],"key" : 2}
+                question_set[idx] = {"word" : kanji_list[real_index],"choices" : [onyomi_list[index1],kunyomi_list[real_index],eng_meaning_list[index2],eng_meaning_list[index3]],"key" : 2}
             elif mode == 2 : 
-                question_set[kanji_list[real_index]] = {"choices" : [onyomi_list[index1],kunyomi_list[index2],eng_meaning_list[real_index],eng_meaning_list[index3]],"key" : 3}
+                question_set[idx] = {"word" : kanji_list[real_index],"choices" : [onyomi_list[index1],kunyomi_list[index2],eng_meaning_list[real_index],eng_meaning_list[index3]],"key" : 3}
             else :
-                question_set[kanji_list[real_index]] = {"choices" : [onyomi_list[index1],kunyomi_list[index2],eng_meaning_list[index3],eng_meaning_list[real_index]],"key" : 4}
+                question_set[idx] = {"word" : kanji_list[real_index],"choices" : [onyomi_list[index1],kunyomi_list[index2],eng_meaning_list[index3],eng_meaning_list[real_index]],"key" : 4}
+            idx+=1
+        return question_set
+    elif data.track == "MEGA" :
+        row = cur.execute("SELECT * FROM wordlist")
+        jap_pron_list = []
+        thai_pron_list = []
+        eng_pron_list = []
+        question_set = {}
+        for i in row.fetchall() :
+            jap_pron_list.append(i[1])
+            thai_pron_list.append(i[2])
+            eng_pron_list.append(i[3])
+        idx = 0
+        for i in range(data.num_of_question) :
+            real_index = randint(0,len(jap_pron_list)-1)
+            index1 = randint(0,len(jap_pron_list)-1)
+            index2 = randint(0,len(jap_pron_list)-1)
+            index3 = randint(0,len(jap_pron_list)-1)
+            mode = randint(0,3)
+            if mode == 0 :
+                question_set[idx] = {"word" : jap_pron_list[real_index],"choices" : [eng_pron_list[real_index],eng_pron_list[index1],eng_pron_list[index2],eng_pron_list[index3]],"key" : 1}
+            elif mode == 1 : 
+                question_set[idx] = {"word" : jap_pron_list[real_index],"choices" : [eng_pron_list[index1],eng_pron_list[real_index],eng_pron_list[index2],eng_pron_list[index3]],"key" : 2}
+            elif mode == 2 : 
+                question_set[idx] = {"word" : jap_pron_list[real_index],"choices" : [eng_pron_list[index1],eng_pron_list[index2],eng_pron_list[real_index],eng_pron_list[index3]],"key" : 3}
+            else :
+                question_set[idx] = {"word" : jap_pron_list[real_index],"choices" : [eng_pron_list[index1],eng_pron_list[index2],eng_pron_list[index3],eng_pron_list[real_index]],"key" : 4}
+            idx+=1
+        row = cur.execute("SELECT * FROM kanji_wordlist") 
+        kanji_list = []
+        onyomi_list = []
+        kunyomi_list = []
+        thai_meaning_list = []
+        eng_meaning_list = []
+        for i in row.fetchall() :
+            kanji_list.append(i[1])
+            onyomi_list.append(i[2])
+            kunyomi_list.append(i[3])
+            thai_meaning_list.append(i[4])
+            eng_meaning_list.append(i[5])
+        
+        for i in range(data.num_of_question) :
+            real_index = randint(0,len(kanji_list)-1)
+            index1 = randint(0,len(kanji_list)-1)
+            index2 = randint(0,len(kanji_list)-1)
+            index3 = randint(0,len(kanji_list)-1)
+            mode = randint(0,3)
+            if mode == 0 :
+                question_set[idx] = {"word" : kanji_list[real_index],"choices" : [onyomi_list[real_index],kunyomi_list[index1],eng_meaning_list[index2],eng_meaning_list[index3]],"key" : 1}
+            elif mode == 1 : 
+                question_set[idx] = {"word" : kanji_list[real_index],"choices" : [onyomi_list[index1],kunyomi_list[real_index],eng_meaning_list[index2],eng_meaning_list[index3]],"key" : 2}
+            elif mode == 2 : 
+                question_set[idx] = {"word" : kanji_list[real_index],"choices" : [onyomi_list[index1],kunyomi_list[index2],eng_meaning_list[real_index],eng_meaning_list[index3]],"key" : 3}
+            else :
+                question_set[idx] = {"word" : kanji_list[real_index],"choices" : [onyomi_list[index1],kunyomi_list[index2],eng_meaning_list[index3],eng_meaning_list[real_index]],"key" : 4}
+            idx+=1
         return question_set
 
     else :
@@ -127,6 +189,7 @@ async def get_set_of_question(data : QuestionQuery) :
             jap_pron_list.append(i[1])
             thai_pron_list.append(i[2])
             eng_pron_list.append(i[3])
+        idx = 0
         for i in range(data.num_of_question) :
             real_index = randint(0,len(jap_pron_list)-1)
             index1 = randint(0,len(jap_pron_list)-1)
@@ -134,13 +197,14 @@ async def get_set_of_question(data : QuestionQuery) :
             index3 = randint(0,len(jap_pron_list)-1)
             mode = randint(0,3)
             if mode == 0 :
-                question_set[jap_pron_list[real_index]] = {"choices" : [eng_pron_list[real_index],eng_pron_list[index1],eng_pron_list[index2],eng_pron_list[index3]],"key" : 1}
+                question_set[idx] = {"word" : jap_pron_list[real_index],"choices" : [eng_pron_list[real_index],eng_pron_list[index1],eng_pron_list[index2],eng_pron_list[index3]],"key" : 1}
             elif mode == 1 : 
-                question_set[jap_pron_list[real_index]] = {"choices" : [eng_pron_list[index1],eng_pron_list[real_index],eng_pron_list[index2],eng_pron_list[index3]],"key" : 2}
+                question_set[idx] = {"word" : jap_pron_list[real_index],"choices" : [eng_pron_list[index1],eng_pron_list[real_index],eng_pron_list[index2],eng_pron_list[index3]],"key" : 2}
             elif mode == 2 : 
-                question_set[jap_pron_list[real_index]] = {"choices" : [eng_pron_list[index1],eng_pron_list[index2],eng_pron_list[real_index],eng_pron_list[index3]],"key" : 3}
+                question_set[idx] = {"word" : jap_pron_list[real_index],"choices" : [eng_pron_list[index1],eng_pron_list[index2],eng_pron_list[real_index],eng_pron_list[index3]],"key" : 3}
             else :
-                question_set[jap_pron_list[real_index]] = {"choices" : [eng_pron_list[index1],eng_pron_list[index2],eng_pron_list[index3],eng_pron_list[real_index]],"key" : 4}
+                question_set[idx] = {"word" : jap_pron_list[real_index],"choices" : [eng_pron_list[index1],eng_pron_list[index2],eng_pron_list[index3],eng_pron_list[real_index]],"key" : 4}
+            idx+=1
         return question_set
 
 @app.post("/update_score")

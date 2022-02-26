@@ -35,4 +35,3 @@ Crews :
 > - Minigame UI
 > - Application UI
 
-## Connected to ItsPraWEED
